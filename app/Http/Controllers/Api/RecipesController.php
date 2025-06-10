@@ -12,8 +12,19 @@ class RecipesController extends Controller
 {
     public function index()
     {
-        $recipes = Recipes::with(['category', 'ingredients'])
-            ->get();
+        $query = Recipes::with(['category', 'ingredients']);
+
+        if ($categoryId = request('category_id')) {
+            $query->where('category_id', $categoryId);
+        }
+
+        if ($ingredientId = request('ingredient_id')) {
+            $query->whereHas('ingredients', function ($q) use ($ingredientId) {
+                $q->where('ingredients.id', $ingredientId);
+            });
+        }
+
+        $recipes = $query->get();
 
         return response()->json($recipes, 200);
     }
