@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\ResponseApi;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -23,18 +24,13 @@ class AuthController extends Controller
       return response()->json(compact('token'));
    }
 
-   public function register(Request $request)
+   public function register(UserRequest  $request)
    {
       try {
-         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-         ]);
+         $validatedData = $request->validated();
 
          $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            ...$validatedData,
             'password' => bcrypt($request->password),
          ]);
 
@@ -45,7 +41,7 @@ class AuthController extends Controller
             'token' => $token,
          ], 201);
       } catch (\Exception $e) {
-         return ResponseApi::error($e->getMessage(), 500);
+         return ResponseApi::error($e->getMessage(), $e->getCode() ?: 500);
       }
    }
 
