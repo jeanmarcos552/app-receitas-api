@@ -13,4 +13,10 @@ class Category extends Model
         'name',
         'updated_at'
     ];
+
+    public function recipes()
+    {
+        return $this->hasMany(Recipes::class);
+    }
+
 }

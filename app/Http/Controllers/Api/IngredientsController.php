@@ -4,28 +4,27 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\ResponseApi;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\IngretientsRequest;
-use App\Models\Ingretients;
+use App\Http\Requests\IngredientsRequest;
+use App\Models\Ingredients;
 
-
-class IngretientsController extends Controller
+class IngredientsController extends Controller
 {
     public function index()
     {
-        $query = Ingretients::query();
+        $query = Ingredients::query();
 
         if ($name = request('name')) {
             $query->where('name', 'like', '%' . $name . '%');
         }
 
-        $ingretients = $query->get();
-        return response()->json($ingretients);
+        $ingredients = $query->get();
+        return response()->json($ingredients);
     }
 
-    public function store(IngretientsRequest  $request)
+    public function store(IngredientsRequest  $request)
     {
         try {
-            $ingredient = Ingretients::create($request->validated());
+            $ingredient = Ingredients::create($request->validated());
 
             return response()->json($ingredient, 201);
         } catch (\Exception $e) {
@@ -36,7 +35,7 @@ class IngretientsController extends Controller
     public function show($id)
     {
         try {
-            $ingredient = Ingretients::find($id)->first();
+            $ingredient = Ingredients::find($id);
 
             if (!$ingredient) {
                 return ResponseApi::notFound('Ingrediente não encontrado');
@@ -48,9 +47,9 @@ class IngretientsController extends Controller
         }
     }
 
-    public function update(IngretientsRequest $request, $id)
+    public function update(IngredientsRequest $request, $id)
     {
-        $ingredient = Ingretients::find($id);
+        $ingredient = Ingredients::find($id);
 
         if (!$ingredient) {
             return ResponseApi::notFound('Ingrediente não encontrado');
@@ -70,7 +69,7 @@ class IngretientsController extends Controller
     public function destroy($id)
     {
         try {
-            $ingredient = Ingretients::where('id', $id)
+            $ingredient = Ingredients::where('id', $id)
                 ->first();
 
             if (!$ingredient) {

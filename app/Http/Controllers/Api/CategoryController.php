@@ -82,6 +82,12 @@ class CategoryController extends Controller
                 return ResponseApi::notFound('Categoria não encontrada');
             }
 
+            if ($category->recipes()->exists()) {
+                return ResponseApi::forbidden(
+                    'Não é possível excluir a categoria, pois está vinculado a uma ou mais receitas.',
+                );
+            }
+
             $category->delete();
             return ResponseApi::success('Categoria excluída com sucesso');
         } catch (\Exception $e) {
