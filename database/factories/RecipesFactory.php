@@ -26,7 +26,6 @@ class RecipesFactory extends Factory
             'preparation_method' => $this->faker->paragraph(2),
             'user_id' => User::factory(),       // cria user se não passar
             'category_id' => Category::factory(), // cria categoria se não passar
-            'deleted' => false,
         ];
     }
 
