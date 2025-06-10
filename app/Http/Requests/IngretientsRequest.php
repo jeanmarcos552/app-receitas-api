@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryRequest extends FormRequest
+class IngretientsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,17 +22,17 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:60|unique:categories,name',
+            'name' => 'required|string|max:40|unique:ingretients,name',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'O nome da categoria é obrigatório.',
-            'name.string'   => 'O da categoria deve ser uma string.',
-            'name.max'      => 'O da categoria não pode ter mais de 60 caracteres.',
-            'name.unique'   => 'Já existe um categoria com esse nome.',
+            'name.required' => 'ingrediende é obrigatório.',
+            'name.string'   => 'ingrediende deve ser uma string.',
+            'name.max'      => 'ingrediende não pode ter mais de 40 caracteres.',
+            'name.unique'   => 'Já existe um ingrediente com esse nome.',
         ];
     }
 }
