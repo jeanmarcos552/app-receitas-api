@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\ResponseErrorApi;
+use App\Helpers\ResponseApi;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class AuthController extends Controller
       $credentials = $request->only('email', 'password');
 
       if (!$token = JWTAuth::attempt($credentials)) {
-         return ResponseErrorApi::unauthorized('Credenciais inválidas');
+         return ResponseApi::unauthorized('Credenciais inválidas');
       }
 
       return response()->json(compact('token'));
@@ -45,7 +45,7 @@ class AuthController extends Controller
             'token' => $token,
          ], 201);
       } catch (\Exception $e) {
-         return ResponseErrorApi::error($e->getMessage(), 500);
+         return ResponseApi::error($e->getMessage(), 500);
       }
    }
 
@@ -55,7 +55,7 @@ class AuthController extends Controller
          JWTAuth::invalidate(JWTAuth::getToken());
          return response()->json(['mensagem' => 'Logout realizado com sucesso']);
       } catch (JWTException $e) {
-         return ResponseErrorApi::error('Falha ao sair, token inválido.', 500);
+         return ResponseApi::error('Falha ao sair, token inválido.', 500);
       }
    }
 

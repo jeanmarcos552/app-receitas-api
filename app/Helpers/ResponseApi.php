@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use Illuminate\Http\JsonResponse;
 
-class ResponseErrorApi
+class ResponseApi
 {
 
    /**
