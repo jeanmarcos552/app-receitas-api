@@ -1,36 +1,63 @@
 services:
-  server-recipes:
-    container_name: recipes-api
+  api:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
+    container_name: recipes-api
     volumes:
-      - .:/var/www
-    depends_on:
-      - db
-    environment:
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_DATABASE=laravel
-      - DB_USERNAME=laravel
-      - DB_PASSWORD=laravel
+      - ./backend/public:/var/www/html
 
-  db:
-    container_name: recipes-db
-    image: mysql:8.0
-    restart: always
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: laravel
+      DB_USERNAME: laravel
+      DB_PASSWORD: laravel
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: recipes-web
+    volumes:
+      - ./frontend:/app
     ports:
-      - "3306:3306"
+      - "5173:5173"
+    working_dir: /app
+    command: npm run dev
+    depends_on:
+      - api
+
+
+  mysql:
+    image: mysql:8.0
+    container_name: recipes-db
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: laravel
       MYSQL_USER: laravel
       MYSQL_PASSWORD: laravel
       TZ: America/Sao_Paulo
+    ports:
+      - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
+
+  nginx:
+    image: nginx:stable
+    container_name: recipes-nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "8000:8000"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./backend/public:/var/www/html
+    depends_on:
+      - api
+      - web
 
 volumes:
   db-data:
