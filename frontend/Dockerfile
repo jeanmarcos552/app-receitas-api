@@ -3,20 +3,20 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Ativa o corepack para Yarn
-RUN corepack enable && corepack prepare yarn@stable --activate
+# Ativa o Corepack e prepara Yarn 4.9.2 (como definido no package.json)
+RUN corepack enable && corepack prepare yarn@4.9.2 --activate
 
-# Copia apenas os arquivos de dependência primeiro (melhor uso de cache)
+# Copia os arquivos de dependências primeiro (melhor para cache)
 COPY package.json yarn.lock ./
 
-# Instala as dependências
+# Instala as dependências do projeto
 RUN yarn install
 
-# Agora copia o resto do código (depois do cache de dependência)
+# Copia o restante do código
 COPY . .
 
-# Expõe a porta do Vite dev server
+# Expõe a porta padrão do Vite
 EXPOSE 5173
 
-# Comando padrão para dev
-CMD ["yarn", "dev"]()
+# Comando para rodar em modo desenvolvimento
+# CMD ["yarn", "dev"]
