@@ -2,8 +2,8 @@ import { Link } from "react-router";
 
 export const RecipesMenu = () => {
   return (
-    <nav className="p-4 border-b bg-gray-100">
-      <ul className="flex gap-4">
+    <nav className="p-4 bg-primary text-white">
+      <ul className="flex gap-4 justify-center">
         <li>
           <Link to="/">Listar</Link>
         </li>

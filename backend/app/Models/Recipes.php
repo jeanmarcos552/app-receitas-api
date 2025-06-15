@@ -15,6 +15,7 @@ class Recipes extends Model
         'preparation_method',
         'user_id',
         'category_id',
+        'image'
     ];
 
 
