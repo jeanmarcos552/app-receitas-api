@@ -3,12 +3,13 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const schema = z.object({
-  name: z.string().min(1, "Name is required"),
+  name: z.string().min(1, "Nome é obrigatório"),
   description: z.string().optional(),
+  preparation_method: z.string().min(1, "Instruções são obrigatórias"),
+  category_id: z.number().min(1, "Categoria é obrigatória"),
   ingredients: z
-    .array(z.string())
-    .min(1, "At least one ingredient is required"),
-  instructions: z.string().min(1, "Instructions are required"),
+    .array(z.number())
+    .min(1, "Pelo menos um ingrediente é obrigatório"),
 });
 
 export type RecipeFormData = z.infer<typeof schema>;
@@ -18,5 +19,14 @@ export const useCreateRecipes = () => {
     resolver: zodResolver(schema),
   });
 
-  return { form };
+  const {
+    formState: { errors },
+  } = form;
+
+  return {
+    form: {
+      ...form,
+      errors,
+    },
+  };
 };
