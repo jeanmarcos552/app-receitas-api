@@ -1,11 +1,12 @@
 import { Route, Routes } from "react-router";
 import { ProtectRoutes } from "./Utils/ProtectRotues";
-import { Login } from "./modules/Auth/screens/Login";
 import { useToast } from "./hooks/useToast";
 import api from "./services/api";
 import { useEffect } from "react";
 import { PublicRoute } from "./Utils/PublicRoute";
 import { RecipesRoutes } from "./modules/Recipes/routes/Recipes.route";
+import { AuthRoutes } from "./modules/Auth/routes/Auth.routes";
+import { AuthLayout } from "./modules/Auth/components/AuthLayout";
 
 function App() {
   const { showToast } = useToast();
@@ -35,14 +36,16 @@ function App() {
 
   return (
     <Routes>
+      {/* ROTAS PÚBLICAS */}
       <Route
-        path="login"
         element={
           <PublicRoute>
-            <Login />
+            <AuthLayout />
           </PublicRoute>
         }
-      />
+      >
+        {AuthRoutes()}
+      </Route>
 
       <Route element={<ProtectRoutes />}>{RecipesRoutes}</Route>
     </Routes>

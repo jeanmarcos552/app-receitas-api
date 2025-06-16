@@ -1,14 +1,22 @@
-import { createContext, useEffect, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 
 import {
   authenticateUser,
   type AuthenticateUserProps,
 } from "../modules/Auth/services/login";
 import api from "../services/api";
+import { register } from "../modules/Auth/services/register";
 
 type AuthContextType = {
   token: string | null;
   login: (newToken: AuthenticateUserProps) => void;
+  registerUser: (newToken: AuthenticateUserProps) => void;
   logout: () => void;
   loading: boolean;
 };
@@ -62,15 +70,31 @@ function AuthProvider({ children }: AuthProviderProps) {
     api.defaults.headers.common["Authorization"] = `Bearer ${resp.token}`;
   };
 
+  const registerUser = async (userData: AuthenticateUserProps) => {
+    setLoading(true);
+    try {
+      const resp = await register(userData);
+
+      setToken(resp.token);
+      localStorage.setItem("token", resp.token);
+      api.defaults.headers.common["Authorization"] = `Bearer ${resp.token}`;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logout = () => {
     setToken(null);
     localStorage.removeItem("token");
   };
 
+  const contextValue = useMemo(
+    () => ({ token, login, logout, loading, registerUser }),
+    [token, login, logout, loading, registerUser]
+  );
+
   return (
-    <AuthContext.Provider value={{ token, login, logout, loading }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 }
 
