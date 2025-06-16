@@ -1,61 +1,102 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🍲 App Receitas - API (Laravel 10)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este repositório contém a API do projeto **App Receitas**, desenvolvida em Laravel e Docker, com autenticação via JWT, testes automatizados com PHPUnit e cobertura básica de recursos como cadastro de usuários, login e gerenciamento de receitas.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Tecnologias Utilizadas
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP 8.2 + Laravel 10
+- MySQL 8
+- JWT Auth (`tymon/jwt-auth`)
+- PHPUnit com SQLite (para testes)
+- Docker & Docker Compose
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 📦 Instalação em ambiente local
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1. Clone o repositório
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+git clone https://github.com/jeanmarcos552/app-receitas-api.git
+cd app-receitas-api 
+```
+### 2. Suba os containers com Docker
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+docker compose up --build
+```
 
-## Laravel Sponsors
+### 3. Copie o arquivo .env e instale dependências
+```bash
+docker compose exec api cp .env.example .env
+docker compose exec api composer install
+docker compose exec api yarn install
+```
+### 4. Gere a chave da aplicação e configure o JWT
+```bash
+docker compose exec api php artisan key:generate
+docker compose exec api php artisan jwt:secret
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 5. Execute as migrations e seeders
+```bash
+docker compose exec api php artisan migrate
+docker compose exec api php artisan db:seed
+```
+# ✅ Testes automatizados com PHPUnit
+Este projeto utiliza SQLite em memória para os testes.
 
-### Premium Partners
+### 1. Execute as migrations de teste
+```bash
+docker compose exec api php artisan migrate --env=testing
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 2. Rode os testes
+```bash
+docker compose exec api php artisan test
+```
 
-## Contributing
+# 🐳 Estrutura Docker
+ - api: Laravel backend
+ - web: Frontend React (consome esta API)
+ - mysql: Banco de dados
+ - nginx: Servidor de aplicação com proxy reverso
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+# 🔗 Endpoints principais
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Método | Rota                         | Descrição                          |
+|--------|------------------------------|------------------------------------|
+| POST   | /api/login                   | Login do usuário                   |
+| POST   | /api/register                | Registro de novo usuário           |
+| GET    | /api/recipes                 | Listar receitas                    |
+| POST   | /api/recipes                 | Criar nova receita                 |
+| GET    | /api/recipes/{recipe}        | Detalhar receita específica        |
+| PUT    | /api/recipes/{recipe}        | Atualizar receita                  |
+| DELETE | /api/recipes/{recipe}        | Remover receita    
+| GET    | /api/category                | Listar categorias                  |
+| POST   | /api/category                | Criar nova categoria               |
+| GET    | /api/category/{category}     | Detalhar categoria específica      |
+| PUT    | /api/category/{category}     | Atualizar categoria                |
+| DELETE | /api/category/{category}     | Remover categoria                  |
+| GET    | /api/ingredients             | Listar ingredientes                |
+| POST   | /api/ingredients             | Criar novo ingrediente             |
+| GET    | /api/ingredients/{ingredient}| Detalhar ingrediente específico    |
+| PUT    | /api/ingredients/{ingredient}| Atualizar ingrediente              |
+| DELETE | /api/ingredients/{ingredient}| Remover ingrediente                |
+| POST   | /api/logout                  | Logout do usuário                  |
+| GET    | /api/me                      | Obter informações do usuário logado|
 
-## Security Vulnerabilities
+# 📌 Observações
+- O frontend do projeto está localizado no diretório `frontend/` e sobe automaticamente junto com a API.
+- As configurações de proxy reverso estão em `./nginx/`.
+- Se o Composer falhar por qualquer motivo, rode novamente:
+```bash 
+docker compose exec api composer install
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+

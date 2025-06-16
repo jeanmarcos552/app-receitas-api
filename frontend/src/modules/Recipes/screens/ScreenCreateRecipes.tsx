@@ -66,8 +66,6 @@ export const ScreenCreateRecipes = () => {
           {...register("preparation_method")}
         />
 
-        <h4>{JSON.stringify(form.watch(), null, 2)}</h4>
-
         <Button loading={loading} type="submit" variant="success">
           Salvar
         </Button>
