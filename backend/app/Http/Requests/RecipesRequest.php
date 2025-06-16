@@ -20,6 +20,7 @@ class RecipesRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'ingredients' => 'required|array',
             'ingredients.*' => 'exists:ingredients,id',
+            'image' => 'nullable|string', // Optional image validation
         ];
     }
 

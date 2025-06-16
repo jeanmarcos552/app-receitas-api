@@ -35,6 +35,7 @@ class RecipesController extends Controller
             $recipe = Recipes::create([
                 ...$request->validated(),
                 'user_id' => Auth::id(),
+                'image' => $request->validated('image') ?? null,
             ]);
 
             $recipe->ingredients()->sync($request->validated('ingredients'));
@@ -63,7 +64,11 @@ class RecipesController extends Controller
 
         $recipe->ingredients()->sync($request['ingredients']);
 
-        $recipe->update($request->validated());
+
+        $recipe->update([
+            ...$request->validated(),
+            'image' => $request->validated('image') ?? $recipe->image,
+        ]);
 
         return response()->json($recipe->load('category', 'ingredients'));
     }

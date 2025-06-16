@@ -4,6 +4,7 @@ import {
   authenticateUser,
   type AuthenticateUserProps,
 } from "../modules/Auth/services/login";
+import api from "../services/api";
 
 type AuthContextType = {
   token: string | null;
@@ -30,13 +31,13 @@ function AuthProvider({ children }: AuthProviderProps) {
         const payload = JSON.parse(atob(payloadBase64));
         const exp = payload.exp;
         if (exp && Date.now() < exp * 1000) {
-          console.log("tem token:");
-
           setToken(storedToken);
+          api.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${storedToken}`;
         } else {
           setToken(null);
           localStorage.removeItem("token");
-          console.log("nao tem token:");
         }
       } catch {
         setToken(null);
@@ -58,7 +59,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     setToken(resp.token);
     localStorage.setItem("token", resp.token);
-    
+    api.defaults.headers.common["Authorization"] = `Bearer ${resp.token}`;
   };
 
   const logout = () => {

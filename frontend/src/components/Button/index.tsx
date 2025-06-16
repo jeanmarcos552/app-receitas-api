@@ -4,7 +4,7 @@ export type ButtonProps = {
   children: React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
-  variant?: "primary" | "secondary" | "danger";
+  variant?: "primary" | "secondary" | "danger" | "success";
   className?: string;
   type?: "button" | "submit" | "reset";
   style?: React.CSSProperties;
@@ -31,6 +31,7 @@ export const Button = ({
     primary: "w-full bg-primary hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md transition",
     secondary: "bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-500",
     danger: "bg-amber-400 text-white hover:bg-amber-600 focus:ring-amber-500",
+    success: "bg-emerald-500 text-white hover:bg-emerald-600 focus:ring-emerald-500",
   };
 
   return (

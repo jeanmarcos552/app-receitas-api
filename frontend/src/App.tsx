@@ -4,13 +4,11 @@ import { Login } from "./modules/Auth/screens/Login";
 import { useToast } from "./hooks/useToast";
 import api from "./services/api";
 import { useEffect } from "react";
-import { Button } from "./components/Button";
-import { useAuth } from "./hooks/useAuth";
 import { PublicRoute } from "./Utils/PublicRoute";
+import { RecipesRoutes } from "./modules/Recipes/routes/Recipes.route";
 
 function App() {
   const { showToast } = useToast();
-  const { logout } = useAuth();
 
   useEffect(() => {
     const interceptor = api.interceptors.response.use(
@@ -44,11 +42,9 @@ function App() {
             <Login />
           </PublicRoute>
         }
-      />{" "}
-      <Route element={<ProtectRoutes />}>
-        <Route path="/" element={<Button onClick={logout}>sair</Button>} />
-        <Route path="/dashboard" element={<h1>Protected Dashboard</h1>} />
-      </Route>
+      />
+
+      <Route element={<ProtectRoutes />}>{RecipesRoutes}</Route>
     </Routes>
   );
 }
