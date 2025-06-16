@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getIngredients } from "../services/ingredients";
 import { useCallback, useState } from "react";
 
+
 export const useIngredients = () => {
   const [name, setName] = useState<string>("");
   const [selectedIngredient, setSelectedIngredient] = useState<number[]>([]);
@@ -19,18 +20,6 @@ export const useIngredients = () => {
     setName("");
   }, []);
 
-  const handleSelectIngredient = useCallback(
-    (id: number) => {
-      if (selectedIngredient.includes(id)) {
-        handleClearName();
-        return;
-      }
-
-      setSelectedIngredient((prev) => [...prev, id]);
-      handleClearName();
-    },
-    [selectedIngredient]
-  );
 
   const handleRemove = (id: number) => {
     setSelectedIngredient((prev) => prev.filter((item) => item !== id));
@@ -42,7 +31,6 @@ export const useIngredients = () => {
     data,
     clean: handleClearName,
     selectedIngredient,
-    handleSelectIngredient,
     remove: handleRemove,
   };
 };

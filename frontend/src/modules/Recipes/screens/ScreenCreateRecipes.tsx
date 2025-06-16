@@ -4,31 +4,20 @@ import { Input } from "../../../components/Inputs";
 import { SearchIngredients } from "../../Ingredients/screens/SearchIngredients";
 import { useCreateRecipes } from "../hooks/useCreateRecipes";
 import { SearchCategories } from "../../Category/screens/SearchCategory";
-import { useMutation } from "@tanstack/react-query";
-import { createRecipes } from "../services/CreateRecipes";
 import { useNavigate } from "react-router";
 
 export const ScreenCreateRecipes = () => {
-  const { form } = useCreateRecipes();
+  const { form, handleSendRecipe, loading } = useCreateRecipes();
 
   const navigate = useNavigate();
-  const { register, handleSubmit, control, reset } = form;
-
-  const handleCreateRecipe = useMutation({
-    mutationFn: createRecipes,
-    onSuccess: () => {
-      reset();
-      navigate("/");
-    },
-  });
+  const { register, handleSubmit, control } = form;
 
   return (
     <div className="container m-auto">
       <form
         onSubmit={handleSubmit((body) => {
-          console.log(JSON.stringify(body, null, 2));
-
-          handleCreateRecipe.mutate(body);
+          handleSendRecipe(body);
+          navigate("/");
         })}
         className=" p-4 bg-secondary shadow-md rounded flex flex-col gap-4"
       >
@@ -48,7 +37,6 @@ export const ScreenCreateRecipes = () => {
         />
 
         <Controller
-          defaultValue={[1]}
           name="ingredients"
           control={control}
           render={({ field }) => (
@@ -78,12 +66,10 @@ export const ScreenCreateRecipes = () => {
           {...register("preparation_method")}
         />
 
-        <Button
-          loading={handleCreateRecipe.isPending}
-          type="submit"
-          variant="success"
-        >
-          Criar nova delícia
+        <h4>{JSON.stringify(form.watch(), null, 2)}</h4>
+
+        <Button loading={loading} type="submit" variant="success">
+          Salvar
         </Button>
       </form>
     </div>

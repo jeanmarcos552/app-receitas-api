@@ -11,5 +11,5 @@ export const useListRecipesDetail = () => {
     enabled: !!id,
   });
 
-  return { data, isFetching };
+  return { data, isFetching , id};
 };

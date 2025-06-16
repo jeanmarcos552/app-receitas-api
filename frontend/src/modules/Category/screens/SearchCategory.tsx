@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import type { ControllerRenderProps } from "react-hook-form";
+import Select from "react-select";
 import { useCategories } from "../hooks/useCategory";
 
 interface SearchCategoriesProps {
@@ -8,11 +8,16 @@ interface SearchCategoriesProps {
 }
 
 export const SearchCategories = ({ field, error }: SearchCategoriesProps) => {
-  const { data, selectedCategory, handleSelectCategory } = useCategories();
+  const { data } = useCategories();
 
-  useEffect(() => {
-    field.onChange(selectedCategory);
-  }, [selectedCategory]);
+  const options =
+    data?.map((cat) => ({
+      value: cat.id,
+      label: cat.name,
+    })) || [];
+
+  const selectedOption =
+    options.find((opt) => opt.value === field.value) || null;
 
   return (
     <div className="flex flex-col gap-2 relative">
@@ -22,24 +27,13 @@ export const SearchCategories = ({ field, error }: SearchCategoriesProps) => {
 
       <small className="text-red-400">{error && error}</small>
 
-      {data && data.length > 0 && (
-        <div className="flex flex-wrap gap-2 mt-2">
-          {data.map((cat) => (
-            <button
-              key={cat.id}
-              type="button"
-              className={`cursor-pointer text-gray-800 px-2 py-1 rounded-full flex items-center gap-1 ${
-                cat.id == selectedCategory
-                  ? "bg-emerald-200 hover:bg-emerald-300"
-                  : "bg-gray-200 hover:bg-gray-200"
-              }  `}
-              onClick={() => handleSelectCategory(cat.id)}
-            >
-              <span className="">{cat?.name}</span>
-            </button>
-          ))}
-        </div>
-      )}
+      <Select
+        options={options}
+        value={selectedOption}
+        onChange={(option) => field.onChange(option ? option.value : null)}
+        placeholder="Selecione uma categoria"
+        isClearable
+      />
     </div>
   );
 };

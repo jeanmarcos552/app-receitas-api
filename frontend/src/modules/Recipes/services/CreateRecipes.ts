@@ -1,6 +1,6 @@
 import api from "../../../services/api";
 
-type RecipeRequest = {
+export type RecipeRequest = {
   name: string;
   description?: string;
   preparation_method: string;
