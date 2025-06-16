@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useListRecipesDetail } from "./useListRecipesDetail";
 
 const schema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -15,8 +16,17 @@ const schema = z.object({
 export type RecipeFormData = z.infer<typeof schema>;
 
 export const useCreateRecipes = () => {
+  const { data, isFetching } = useListRecipesDetail();
+
   const form = useForm<RecipeFormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      name: data?.name || "",
+      description: data?.description || "",
+      preparation_method: data?.preparation_method || "",
+      category_id: data?.category_id || 0,
+      ingredients: data?.ingredients.map((item) => item.pivot.ingredients_id) || [],
+    },
   });
 
   const {

@@ -9,6 +9,7 @@ export const RecipesRoutes = (
   <Route path="/" element={<RecipesLayout />}>
     <Route index element={<ScreenListRecipes />} />
     <Route path="create" element={<ScreenCreateRecipes />} />
-    <Route path="edit/:id" element={<ScreenListRecipesDetails />} />
+    <Route path="details/:id" element={<ScreenListRecipesDetails />} />
+    <Route path="edit/:id" element={<ScreenCreateRecipes />} />
   </Route>
 );

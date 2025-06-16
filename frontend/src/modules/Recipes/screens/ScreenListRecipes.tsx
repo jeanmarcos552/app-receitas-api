@@ -67,9 +67,15 @@ export const ScreenListRecipes = () => {
                   }
                 })}
 
-                <Link to={`edit/${recipe.id}`}>
+                <Link to={`details/${recipe.id}`}>
                   <span className="inline-block bg-teal-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">
                     Detalhes
+                  </span>
+                </Link>
+
+                <Link to={`edit/${recipe.id}`}>
+                  <span className="inline-block bg-blue-900 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">
+                    Editar
                   </span>
                 </Link>
               </div>

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 
 export const ScreenCreateRecipes = () => {
   const { form } = useCreateRecipes();
+
   const navigate = useNavigate();
   const { register, handleSubmit, control, reset } = form;
 
@@ -47,6 +48,7 @@ export const ScreenCreateRecipes = () => {
         />
 
         <Controller
+          defaultValue={[1]}
           name="ingredients"
           control={control}
           render={({ field }) => (

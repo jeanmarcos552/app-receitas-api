@@ -16,6 +16,10 @@ export interface RecipeCategory {
   };
   ingredients: {
     name: string;
+    pivot: {
+      recipe_id: number;
+      ingredients_id: number;
+    };
   }[];
 }
 export async function getRecipesDetails(id: number): Promise<RecipeCategory> {

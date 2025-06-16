@@ -7,7 +7,7 @@ interface SearchIngredientsProps {
   error?: string;
 }
 
-export const SearchIngredients = ({ field, error }: SearchIngredientsProps) => {
+export const SearchIngredients = ({ field,  error }: SearchIngredientsProps) => {
   const {
     setName,
     name,
@@ -20,6 +20,7 @@ export const SearchIngredients = ({ field, error }: SearchIngredientsProps) => {
   useEffect(() => {
     field.onChange(selectedIngredient);
   }, [selectedIngredient]);
+
 
   return (
     <div className="flex flex-col gap-2 relative">
