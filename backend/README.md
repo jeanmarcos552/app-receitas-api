@@ -1,9 +1,3 @@
-# 🍲 App Receitas - API (Laravel 10)
-
-Este repositório contém a API do projeto **App Receitas**, desenvolvida em Laravel e Docker, com autenticação via JWT, testes automatizados com PHPUnit e cobertura básica de recursos como cadastro de usuários, login e gerenciamento de receitas.
-
----
-
 ## 🚀 Tecnologias Utilizadas
 
 - PHP 8.2 + Laravel 10
