@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { useListRecipes } from "../hooks/useListRecipes";
 import Banner from "@/assets/banner.png";
 
@@ -65,6 +66,12 @@ export const ScreenListRecipes = () => {
                     );
                   }
                 })}
+
+                <Link to={`edit/${recipe.id}`}>
+                  <span className="inline-block bg-teal-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">
+                    Detalhes
+                  </span>
+                </Link>
               </div>
             </div>
           ))}

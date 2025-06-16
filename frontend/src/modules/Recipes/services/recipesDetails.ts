@@ -1,33 +1,26 @@
 import api from "../../../services/api";
 
-type Ingredient = {
-  name: string;
-  pivot: {
-    recipe_id: number;
-    ingredients_id: number;
-  };
-};
-
-type Category = {
-  name: string;
-  id: number;
-};
-
-type Recipe = {
+export interface RecipeCategory {
   id: number;
   name: string;
   description: string;
+  image: string | null;
   preparation_method: string;
-  category_id: number;
   user_id: number;
-  updated_at: string;
+  category_id: number;
   created_at: string;
-  category: Category;
-  ingredients: Ingredient[];
-};
-export async function getRecipes(): Promise<Recipe[]> {
+  updated_at: string;
+  category: {
+    name: string;
+    id: number;
+  };
+  ingredients: {
+    name: string;
+  }[];
+}
+export async function getRecipesDetails(id: number): Promise<RecipeCategory> {
   const response = await api
-    .get("/recipes")
+    .get(`/recipes/${id}`)
     .then((res) => res.data)
     .catch((error) => {
       console.error("Error fetching recipes:", error);
