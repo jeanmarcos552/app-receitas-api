@@ -5,10 +5,12 @@ import {
   type AuthenticateUserProps,
 } from "../modules/Auth/services/login";
 import api from "../services/api";
+import { register } from "../modules/Auth/services/register";
 
 type AuthContextType = {
   token: string | null;
   login: (newToken: AuthenticateUserProps) => void;
+  registerUser: (newToken: AuthenticateUserProps) => void;
   logout: () => void;
   loading: boolean;
 };
@@ -62,13 +64,32 @@ function AuthProvider({ children }: AuthProviderProps) {
     api.defaults.headers.common["Authorization"] = `Bearer ${resp.token}`;
   };
 
+  const registerUser = async (userData: AuthenticateUserProps) => {
+    setLoading(true);
+    try {
+      const resp = await register(userData);
+
+      setToken(resp.token);
+      localStorage.setItem("token", resp.token);
+      api.defaults.headers.common["Authorization"] = `Bearer ${resp.token}`;
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  console.log("AuthProvider token:", token);
+  console.log(JSON.stringify(api.defaults.headers, null, 2));
+
   const logout = () => {
     setToken(null);
     localStorage.removeItem("token");
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout, loading }}>
+    <AuthContext.Provider
+      value={{ token, login, logout, loading, registerUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

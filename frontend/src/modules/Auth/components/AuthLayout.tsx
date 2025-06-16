@@ -1,12 +1,8 @@
-import React from "react";
 import BG from "@/assets/bg_login.png";
 import "./layout.css";
+import { Outlet } from "react-router";
 
-export type LayoutProps = {
-  children: React.ReactNode;
-};
-
-export const LayoutLogin = ({ children }: LayoutProps) => {
+export const AuthLayout = () => {
   return (
     <div className="min-h-screen flex flex-row justify-content-between align-items-center flex-grow-1">
       <div
@@ -15,7 +11,7 @@ export const LayoutLogin = ({ children }: LayoutProps) => {
           backgroundImage: `url(${BG})`,
         }}
       />
-      {children}
+      <Outlet />
     </div>
   );
 };
