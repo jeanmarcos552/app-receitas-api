@@ -8,6 +8,7 @@ export const ScreenListRecipesDetails = () => {
   if (isFetching) {
     return <div>Carregando...</div>;
   }
+  
   if (!data) {
     return <div>Nenhuma receita encontrada.</div>;
   }

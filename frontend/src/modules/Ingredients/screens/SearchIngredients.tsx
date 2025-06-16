@@ -46,7 +46,7 @@ export const SearchIngredients = ({ field, error }: SearchIngredientsProps) => {
         name={field.name}
       />
 
-      <small className="text-red-400">{error && error}</small>
+      <small className="text-red-400">{error}</small>
     </div>
   );
 };

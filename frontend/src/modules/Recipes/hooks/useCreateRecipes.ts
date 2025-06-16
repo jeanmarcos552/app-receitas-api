@@ -67,12 +67,12 @@ export const useCreateRecipes = () => {
   useEffect(() => {
     if (data) {
       form.reset({
-        name: data.name || "",
-        description: data.description || "",
-        preparation_method: data.preparation_method || "",
-        category_id: data.category_id || 0,
+        name: data.name ?? "",
+        description: data.description ?? "",
+        preparation_method: data.preparation_method ?? "",
+        category_id: data.category_id ?? 0,
         ingredients:
-          data.ingredients?.map((item) => item.pivot.ingredients_id) || [],
+          data.ingredients?.map((item) => item.pivot.ingredients_id) ?? [],
       });
     }
   }, [data, form]);

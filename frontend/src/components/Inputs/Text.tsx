@@ -14,14 +14,14 @@ export const Text = React.forwardRef<HTMLInputElement, TextInputProps>(
     return (
       <div className="flex flex-col gap-2">
         <label htmlFor={id} className="block text-sm font-medium text-gray-700">
-          {label && label}
+          {label}
         </label>
         <input
           ref={ref}
           className={`w-full rounded-lg bg-white px-3 py-4 border-gray-300 focus:border-primary focus:ring-primary transition ${className}`}
           {...props}
         />
-        <small className="text-red-400">{error && error}</small>
+        <small className="text-red-400">{error}</small>
       </div>
     );
   }

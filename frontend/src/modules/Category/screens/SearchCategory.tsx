@@ -25,7 +25,7 @@ export const SearchCategories = ({ field, error }: SearchCategoriesProps) => {
         Buscar categorias
       </label>
 
-      <small className="text-red-400">{error && error}</small>
+      <small className="text-red-400">{error}</small>
 
       <Select
         options={options}
