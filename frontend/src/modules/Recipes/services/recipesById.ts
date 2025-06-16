@@ -23,7 +23,6 @@ type Recipe = {
   updated_at: string;
   created_at: string;
   category: Category;
-  image?: string;
   ingredients: Ingredient[];
 };
 export async function getRecipes(): Promise<Recipe[]> {

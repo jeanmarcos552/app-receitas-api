@@ -42,7 +42,7 @@ export const ScreenListRecipes = () => {
             >
               <img
                 className="w-full"
-                src="https://www.kitano.com.br/wp-content/uploads/2019/07/SSP_2480-Frango-assado-com-salsa-e-cebolinha-1.jpg"
+                src={recipe.image || "https://placehold.co/400x200"}
                 alt="Sunset in the mountains"
               />
               <div className="px-6 py-4">
