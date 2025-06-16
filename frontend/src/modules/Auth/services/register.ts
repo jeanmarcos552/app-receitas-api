@@ -17,7 +17,7 @@ export async function register(
     .then((response) => response.data)
     .catch((error) => {
       throw new Error(
-        error.response?.data?.message || "Erro ao registrar usuário"
+        error.response?.data?.message ?? "Erro ao registrar usuário"
       );
     });
 }

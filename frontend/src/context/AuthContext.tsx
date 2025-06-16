@@ -1,4 +1,10 @@
-import { createContext, useEffect, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 
 import {
   authenticateUser,
@@ -72,26 +78,23 @@ function AuthProvider({ children }: AuthProviderProps) {
       setToken(resp.token);
       localStorage.setItem("token", resp.token);
       api.defaults.headers.common["Authorization"] = `Bearer ${resp.token}`;
-
     } finally {
       setLoading(false);
     }
   };
-
-  console.log("AuthProvider token:", token);
-  console.log(JSON.stringify(api.defaults.headers, null, 2));
 
   const logout = () => {
     setToken(null);
     localStorage.removeItem("token");
   };
 
+  const contextValue = useMemo(
+    () => ({ token, login, logout, loading, registerUser }),
+    [token, login, logout, loading, registerUser]
+  );
+
   return (
-    <AuthContext.Provider
-      value={{ token, login, logout, loading, registerUser }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 }
 
